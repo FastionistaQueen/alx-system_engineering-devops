@@ -1,11 +1,10 @@
-#!/bin/bash
-
-# Check if exactly one argument is provided
-if [ "$#" -ne 1 ]; then
+#!/usr/bin/env bash
+# Check if an argument is provided
+if [ $# -ne 1 ]; then
     echo "Usage: $0 <username>"
     exit 1
 fi
 
-# Run `whoami` command under the user passed as argument
+# Run whoami command under the specified user
 sudo -u "$1" whoami
 
