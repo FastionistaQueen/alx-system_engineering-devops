@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Check if Nginx is installed
+if ! command -v nginx &> /dev/null; then
+    echo "Nginx is not installed. Please install Nginx first."
+    exit 1
+fi
+
+# Check if Nginx is listening on port 80
+if ! ss -tln | grep -q ':80 '; then
+    # Modify firewall rules to allow traffic on port 80
+    iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+    iptables-save > /etc/iptables/rules.v4
+
+    # Restart Nginx service
+    service nginx restart
+
+    echo "Nginx is now listening on port 80."
+else
+    echo "Nginx is already configured to listen on port 80."
+fi
+
